@@ -8,11 +8,11 @@ class Client(Base):
     __tablename__ = "clients"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
+    user_id = Column(Integer, ForeignKey("users.id", ondelete="CASCADE"), nullable=False)
     name = Column(String, nullable=False)
-    email = Column(String, unique=True, index=True, nullable=False)
+    email = Column(String)
     company = Column(String)
     notes = Column(Text)
 
     user = relationship("User", back_populates="clients")
-    projects = relationship("Project", back_populates="client")
+    projects = relationship("Project", back_populates="client", cascade="all, delete-orphan")

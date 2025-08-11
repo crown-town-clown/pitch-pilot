@@ -8,14 +8,14 @@ class Project(Base):
     __tablename__ = "projects"
 
     id = Column(Integer, primary_key=True, index=True)
-    client_id = Column(Integer, ForeignKey("clients.id"), nullable=False)
+    client_id = Column(Integer, ForeignKey("clients.id", ondelete="CASCADE"), nullable=False)
     title = Column(String, nullable=False)
-    status = Column(String, default="planning", nullable=False)
+    status = Column(String, default="planning")
     deadline = Column(Date, nullable=True)
     description = Column(Text, nullable=True)
 
     client = relationship("Client", back_populates="projects")
-    proposals = relationship("Proposal", back_populates="project")
-    invoices = relationship("Invoice", back_populates="project")
+    proposals = relationship("Proposal", back_populates="project", cascade="all, delete-orphan")
+    invoices = relationship("Invoice", back_populates="project", cascade="all, delete-orphan")
     
     
